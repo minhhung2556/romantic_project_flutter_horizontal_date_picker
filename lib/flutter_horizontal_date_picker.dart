@@ -9,11 +9,14 @@ class HorizontalDatePicker extends StatefulWidget {
   final double itemWidth;
   final double itemHeight;
   final double itemSpacing;
-  final bool needFocus;
   final Color selectedColor;
   final Color unSelectedColor;
   final Widget Function(DateTime itemValue, DateTime? selected) itemBuilder;
   final int itemCount;
+  final bool needFocus;
+  final Curve focusAnimationCurve;
+  final Duration focusAnimationDuration;
+  final bool debug;
 
   const HorizontalDatePicker({
     Key? key,
@@ -29,6 +32,9 @@ class HorizontalDatePicker extends StatefulWidget {
     this.unSelectedColor = Colors.white,
     required this.itemBuilder,
     required this.itemCount,
+    this.focusAnimationCurve = Curves.elasticOut,
+    this.focusAnimationDuration = const Duration(milliseconds: 200),
+    this.debug = false,
   }) : super(key: key);
   @override
   _HorizontalDatePickerState createState() => _HorizontalDatePickerState();
@@ -48,8 +54,10 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
     step = Duration(
         milliseconds: widget.end.difference(widget.begin).inMilliseconds ~/
             widget.itemCount);
-    debugPrint(
-        '_HorizontalDatePickerState._checkParameters: step=${step.inMilliseconds}');
+    if (widget.debug) {
+      debugPrint(
+          '_HorizontalDatePickerState._checkParameters: step=${step.inMilliseconds}');
+    }
   }
 
   @override
@@ -83,10 +91,6 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
           final itemValue = widget.begin.add(step * index);
           final bool isSelected =
               widget.selected == null ? false : _getSelectedIndex() == index;
-          if (isSelected) {
-            debugPrint(
-                '_HorizontalDatePickerState.build: selectedIndex=$index');
-          }
           return FittedBox(
             child: Container(
               width: widget.itemWidth,
@@ -98,8 +102,10 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
               color: isSelected ? widget.selectedColor : widget.unSelectedColor,
               child: ElevatedButton(
                 onPressed: () {
-                  debugPrint(
-                      '_HorizontalDatePickerState.onPressed: itemValue=$itemValue');
+                  if (widget.debug) {
+                    debugPrint(
+                        '_HorizontalDatePickerState.onPressed: itemValue=$itemValue');
+                  }
                   setState(() {
                     if (widget.onSelected != null)
                       widget.onSelected!(itemValue);
@@ -133,8 +139,8 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
   int _getSelectedIndex() {
     int result = -1;
     if (widget.selected == null) return result;
-    debugPrint(
-        '_HorizontalDatePickerState._getSelectedIndex: selected=${widget.selected}');
+    // debugPrint(
+    //     '_HorizontalDatePickerState._getSelectedIndex: selected=${widget.selected}');
     result = (widget.selected!.difference(widget.begin).inMilliseconds /
             step.inMilliseconds)
         .round();
@@ -142,10 +148,12 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
   }
 
   void _focusSelected(int index) {
+    if (widget.debug) {
+      debugPrint('_HorizontalDatePickerState._focusSelected: index=$index');
+    }
+
     if (!widget.needFocus) return;
     if (index < 0 || index >= widget.itemCount) return;
-    debugPrint('_HorizontalDatePickerState._focusSelected: index=$index');
-
     if (scrollController.hasClients) {
       final itemSpacing = widget.itemSpacing;
       final itemW = widget.itemWidth;
@@ -158,7 +166,8 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
           .clamp(0.0, scrollController.position.maxScrollExtent)
           .toDouble();
       scrollController.animateTo(offset,
-          duration: Duration(milliseconds: 200), curve: Curves.elasticOut);
+          duration: widget.focusAnimationDuration,
+          curve: widget.focusAnimationCurve);
     } else {
       /// sometime when initializing the scrollController have no client.
       Future.delayed(Duration(milliseconds: 200))
