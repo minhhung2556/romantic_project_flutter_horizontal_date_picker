@@ -8,7 +8,11 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-const int _kSampleItemCount = 15;
+const int _kSampleItemCountDay = 40;
+const int _kSampleItemCountHour = 40;
+const int _kSampleItemCountMinute = 50;
+const int _kSampleItemCountSecond = 60;
+
 const Duration _kSampleDurationToEndDay = Duration(days: 40);
 const Duration _kSampleDurationToEndHour = Duration(hours: 30);
 const Duration _kSampleDurationToEndMinute = Duration(minutes: 100);
@@ -51,9 +55,13 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ],
               ),
-              Text('SampleItemCount=$_kSampleItemCount'),
               const SizedBox(height: 20),
-              Text("Days"),
+              FittedBox(
+                child: Text(
+                  "Days:\n$_now to ${_now.add(_kSampleDurationToEndDay)}\n$_kSampleItemCountDay items",
+                  textAlign: TextAlign.center,
+                ),
+              ),
               HorizontalDatePicker(
                 begin: _now,
                 end: _now.add(_kSampleDurationToEndDay),
@@ -67,7 +75,7 @@ class _MyAppState extends State<MyApp> {
                   var isSelected =
                       selected?.difference(itemValue).inMilliseconds == 0;
                   return Text(
-                    itemValue.formatted(pattern: "EEE\ndd/MM"),
+                    itemValue.formatted(pattern: "EEE\ndd/MM\nHH:mm:ss"),
                     style: TextStyle(
                       color: isSelected ? Colors.white : Colors.black54,
                       fontSize: 12,
@@ -75,13 +83,18 @@ class _MyAppState extends State<MyApp> {
                     textAlign: TextAlign.center,
                   );
                 },
-                itemCount: _kSampleItemCount,
+                itemCount: _kSampleItemCountDay,
                 itemSpacing: 12,
               ),
               Divider(
                 height: 12,
               ),
-              Text("Hours"),
+              FittedBox(
+                child: Text(
+                  "Hours:\n$_now to ${_now.add(_kSampleDurationToEndHour)}\n$_kSampleItemCountHour items",
+                  textAlign: TextAlign.center,
+                ),
+              ),
               HorizontalDatePicker(
                 begin: _now,
                 end: _now.add(_kSampleDurationToEndHour),
@@ -95,7 +108,7 @@ class _MyAppState extends State<MyApp> {
                   var isSelected =
                       selected?.difference(itemValue).inMilliseconds == 0;
                   return Text(
-                    itemValue.formatted(pattern: "dd/MM\n\nHH:mm:ss"),
+                    itemValue.formatted(pattern: "EEE\ndd/MM\nHH:mm:ss"),
                     style: TextStyle(
                       color: isSelected ? Colors.white : Colors.black54,
                       fontSize: 12,
@@ -103,13 +116,18 @@ class _MyAppState extends State<MyApp> {
                     textAlign: TextAlign.center,
                   );
                 },
-                itemCount: _kSampleItemCount,
+                itemCount: _kSampleItemCountHour,
                 itemSpacing: 12,
               ),
               Divider(
                 height: 12,
               ),
-              Text("Minutes"),
+              FittedBox(
+                child: Text(
+                  "Minutes:\n$_now to ${_now.add(_kSampleDurationToEndMinute)}\n$_kSampleItemCountMinute items",
+                  textAlign: TextAlign.center,
+                ),
+              ),
               HorizontalDatePicker(
                 begin: _now,
                 end: _now.add(_kSampleDurationToEndMinute),
@@ -123,7 +141,7 @@ class _MyAppState extends State<MyApp> {
                   var isSelected =
                       selected?.difference(itemValue).inMilliseconds == 0;
                   return Text(
-                    itemValue.formatted(pattern: "dd/MM\n\nHH:mm:ss"),
+                    itemValue.formatted(pattern: "EEE\ndd/MM\nHH:mm:ss"),
                     style: TextStyle(
                       color: isSelected ? Colors.white : Colors.black54,
                       fontSize: 12,
@@ -131,13 +149,18 @@ class _MyAppState extends State<MyApp> {
                     textAlign: TextAlign.center,
                   );
                 },
-                itemCount: _kSampleItemCount,
+                itemCount: _kSampleItemCountMinute,
                 itemSpacing: 12,
               ),
               Divider(
                 height: 12,
               ),
-              Text("Seconds"),
+              FittedBox(
+                child: Text(
+                  "Seconds:\n$_now to ${_now.add(_kSampleDurationToEndSecond)}\n$_kSampleItemCountSecond items",
+                  textAlign: TextAlign.center,
+                ),
+              ),
               HorizontalDatePicker(
                 begin: _now,
                 end: _now.add(_kSampleDurationToEndSecond),
@@ -151,7 +174,7 @@ class _MyAppState extends State<MyApp> {
                   var isSelected =
                       selected?.difference(itemValue).inMilliseconds == 0;
                   return Text(
-                    itemValue.formatted(pattern: "dd/MM\n\nHH:mm:ss"),
+                    itemValue.formatted(pattern: "EEE\ndd/MM\nHH:mm:ss"),
                     style: TextStyle(
                       color: isSelected ? Colors.white : Colors.black54,
                       fontSize: 12,
@@ -159,7 +182,7 @@ class _MyAppState extends State<MyApp> {
                     textAlign: TextAlign.center,
                   );
                 },
-                itemCount: _kSampleItemCount,
+                itemCount: _kSampleItemCountSecond,
                 itemSpacing: 12,
               ),
             ],
