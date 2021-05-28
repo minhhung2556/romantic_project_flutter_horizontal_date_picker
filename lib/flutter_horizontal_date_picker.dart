@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 
 /// {@tool snippet}
 /// This is a sample of a [HorizontalDatePicker] widget.
+/// It supports you can create a DatePicker with flexible count of items from [begin] to [end] by [itemCount].
+/// By [itemCount] its can split into days, hours, minutes, seconds, that makes you can use this widget in many situations.
 ///
 /// ```dart
 ///            HorizontalDatePicker(

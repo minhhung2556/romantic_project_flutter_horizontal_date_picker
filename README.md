@@ -6,6 +6,9 @@ A Flutter package to create a Horizontal Date Picker. It will be useful for your
 
 ### Example
 
+It supports you can create a DatePicker with flexible count of items from [begin] to [end] by [itemCount].
+By [itemCount] its can split into days, hours, minutes, seconds, that makes you can use this widget in many situations.
+
 ```dart
 import 'package:flutter_story_list/flutter_story_list.dart';
 
