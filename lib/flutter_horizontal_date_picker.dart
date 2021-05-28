@@ -1,6 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+/// {@tool snippet}
+/// This is a sample of a [HorizontalDatePicker] widget.
+///
+/// ```dart
+///            HorizontalDatePicker(
+///                 begin: DateTime.now(),
+///                 end: DateTime.now().add(Duration(days: 40)),
+///                 selected: DateTime.now(),
+///                 onSelected: (item) {
+///                 },
+///                 itemBuilder: (DateTime itemValue, DateTime? selected) {
+///                   var isSelected =
+///                       selected?.difference(itemValue).inMilliseconds == 0;
+///                   return Text(
+///                     itemValue.formatted(pattern: "EEE\ndd/MM\nHH:mm:ss"),
+///                     style: TextStyle(
+///                       color: isSelected ? Colors.white : Colors.black54,
+///                       fontSize: 12,
+///                     ),
+///                     textAlign: TextAlign.center,
+///                   );
+///                 },
+///                 itemCount: 40,
+///                 itemSpacing: 12,
+///             )
+/// ```
+/// {@end-tool}
 class HorizontalDatePicker extends StatefulWidget {
   final DateTime begin;
   final DateTime end;
@@ -16,6 +43,21 @@ class HorizontalDatePicker extends StatefulWidget {
   final bool needFocus;
   final Curve focusAnimationCurve;
   final Duration focusAnimationDuration;
+
+  /// * [begin] is the begin DateTime.
+  /// * [end] is the end DateTime.
+  /// * [selected] is the selected DateTime.
+  /// * [needFocus] if true {default} the selected item will be scrolled to the center of ListView.
+  /// * [itemHeight] is height of date item, whole this widget also.
+  /// * [itemWidth] is width of date item.
+  /// * [itemSpacing] is the spacing between date items.
+  /// * [onSelected] is the callback when users are pressed on an item.
+  /// * [selectedColor] is the background color of selected item.
+  /// * [unSelectedColor] is the background color of unselected item.
+  /// * [itemBuilder] is the function that create the date items.
+  /// * [itemCount] is total of items, it's used to calculate how many duration (step) between every item.
+  /// * [focusAnimationCurve] use for animation when [needFocus] is true.
+  /// * [focusAnimationDuration] use for animation when [needFocus] is true.
 
   const HorizontalDatePicker({
     Key? key,
@@ -169,10 +211,12 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
   }
 }
 
+/// A DateTime extension use for this for [HorizontalDatePicker]
 extension HorizontalDatePickerDateTimeEx on DateTime {
   /// convert to a date at 00:00:00
   DateTime get to000000 => DateTime(this.year, this.month, this.day);
 
+  /// format with [pattern]
   String formatted({String pattern = 'dd/MM'}) {
     try {
       final f = DateFormat(pattern);
