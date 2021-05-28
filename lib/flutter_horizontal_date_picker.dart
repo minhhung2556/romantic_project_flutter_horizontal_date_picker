@@ -16,7 +16,6 @@ class HorizontalDatePicker extends StatefulWidget {
   final bool needFocus;
   final Curve focusAnimationCurve;
   final Duration focusAnimationDuration;
-  final bool debug;
 
   const HorizontalDatePicker({
     Key? key,
@@ -34,15 +33,15 @@ class HorizontalDatePicker extends StatefulWidget {
     required this.itemCount,
     this.focusAnimationCurve = Curves.elasticOut,
     this.focusAnimationDuration = const Duration(milliseconds: 200),
-    this.debug = false,
   }) : super(key: key);
+
   @override
   _HorizontalDatePickerState createState() => _HorizontalDatePickerState();
 }
 
 class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
-  final scrollController = ScrollController();
-  late Duration step;
+  final _scrollController = ScrollController();
+  late Duration _step;
 
   @override
   void initState() {
@@ -51,13 +50,11 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
   }
 
   void _checkParameters() {
-    step = Duration(
+    _step = Duration(
         milliseconds: widget.end.difference(widget.begin).inMilliseconds ~/
             widget.itemCount);
-    if (widget.debug) {
-      debugPrint(
-          '_HorizontalDatePickerState._checkParameters: step=${step.inMilliseconds}');
-    }
+    debugPrint(
+        '_HorizontalDatePickerState._checkParameters: step=${_step.inMilliseconds}');
   }
 
   @override
@@ -76,7 +73,7 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
 
   @override
   void dispose() {
-    scrollController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -85,10 +82,10 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
     return Container(
       height: widget.itemHeight,
       child: ListView.builder(
-        controller: scrollController,
+        controller: _scrollController,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          final itemValue = widget.begin.add(step * index);
+          final itemValue = widget.begin.add(_step * index);
           final bool isSelected =
               widget.selected == null ? false : _getSelectedIndex() == index;
           return FittedBox(
@@ -102,10 +99,8 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
               color: isSelected ? widget.selectedColor : widget.unSelectedColor,
               child: ElevatedButton(
                 onPressed: () {
-                  if (widget.debug) {
-                    debugPrint(
-                        '_HorizontalDatePickerState.onPressed: itemValue=$itemValue');
-                  }
+                  debugPrint(
+                      '_HorizontalDatePickerState.onPressed: itemValue=$itemValue');
                   setState(() {
                     if (widget.onSelected != null)
                       widget.onSelected!(itemValue);
@@ -142,19 +137,17 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
     // debugPrint(
     //     '_HorizontalDatePickerState._getSelectedIndex: selected=${widget.selected}');
     result = (widget.selected!.difference(widget.begin).inMilliseconds /
-            step.inMilliseconds)
+            _step.inMilliseconds)
         .round();
     return result;
   }
 
   void _focusSelected(int index) {
-    if (widget.debug) {
-      debugPrint('_HorizontalDatePickerState._focusSelected: index=$index');
-    }
+    debugPrint('_HorizontalDatePickerState._focusSelected: index=$index');
 
     if (!widget.needFocus) return;
     if (index < 0 || index >= widget.itemCount) return;
-    if (scrollController.hasClients) {
+    if (_scrollController.hasClients) {
       final itemSpacing = widget.itemSpacing;
       final itemW = widget.itemWidth;
       final parentW = (context.findRenderObject() as RenderBox).size.width;
@@ -163,9 +156,9 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
       double offset = b - a;
 
       offset = offset
-          .clamp(0.0, scrollController.position.maxScrollExtent)
+          .clamp(0.0, _scrollController.position.maxScrollExtent)
           .toDouble();
-      scrollController.animateTo(offset,
+      _scrollController.animateTo(offset,
           duration: widget.focusAnimationDuration,
           curve: widget.focusAnimationCurve);
     } else {
