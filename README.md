@@ -10,7 +10,7 @@ It supports you can create a DatePicker with flexible count of items from [begin
 By [itemCount] its can split into days, hours, minutes, seconds, that makes you can use this widget in many situations.
 
 ```dart
-import 'package:flutter_story_list/flutter_story_list.dart';
+import 'package:flutter_horizontal_date_picker/flutter_horizontal_date_picker.dart';
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
