@@ -90,6 +90,7 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
   @override
   void initState() {
     _checkParameters();
+    _focusSelected(_getSelectedIndex());
     super.initState();
   }
 
