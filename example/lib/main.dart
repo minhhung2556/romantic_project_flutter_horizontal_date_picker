@@ -29,6 +29,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    if (selected0 == null) {
+      selected0 = _now.add(Duration(days: 5));
+    }
     return MaterialApp(
       title: 'Example',
       theme: ThemeData(
@@ -63,6 +66,7 @@ class _MyAppState extends State<MyApp> {
                 ),
               ),
               HorizontalDatePicker(
+                needFocus: true,
                 begin: _now,
                 end: _now.add(_kSampleDurationToEndDay),
                 selected: selected0,
