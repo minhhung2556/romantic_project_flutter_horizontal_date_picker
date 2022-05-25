@@ -1,3 +1,7 @@
+## [1.1.0] - 25/05/2022
+
+* Migrate to flutter 3.0.1.
+
 ## [1.0.1] - 23/07/2021
 
 * Focus selected item on initState.

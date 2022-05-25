@@ -108,7 +108,7 @@ class _HorizontalDatePickerState extends State<HorizontalDatePicker> {
 
     if (oldWidget.selected != widget.selected) {
       setState(() {
-        WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           _focusSelected(_getSelectedIndex());
         });
       });
